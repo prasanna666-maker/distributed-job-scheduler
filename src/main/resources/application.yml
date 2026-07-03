@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: job-scheduler
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/job_scheduler?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+    open-in-view: false
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      write-dates-as-timestamps: false
+
+server:
+  port: ${PORT:8080}
+  error:
+    include-message: always
+    include-binding-errors: always
+
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:YTJiM2M0ZDVlNmY3ZzhoOWkwajFrMmwzbTRuNW82cDdxOHI5czB0MXUydjN3NHg1eTZ6N0E4QjlDMEQxRTJG}
+  expiration-ms: ${JWT_EXPIRATION_MS:86400000}  # 24 hours
+
+# Worker Configuration
+worker:
+  enabled: ${WORKER_ENABLED:true}
+  poll-interval-ms: ${WORKER_POLL_INTERVAL_MS:2000}
+  heartbeat-interval-ms: ${WORKER_HEARTBEAT_INTERVAL_MS:10000}
+  stale-heartbeat-threshold-ms: ${WORKER_STALE_HEARTBEAT_THRESHOLD_MS:30000}
+  concurrency: ${WORKER_CONCURRENCY:5}
+
+# Logging
+logging:
+  level:
+    com.codity.jobscheduler: DEBUG
+    org.springframework.security: WARN
+    org.hibernate.SQL: WARN
