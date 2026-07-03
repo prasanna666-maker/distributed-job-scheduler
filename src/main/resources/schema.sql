@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS jobs (
 
 CREATE TABLE IF NOT EXISTS workers (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    organization_id BIGINT NOT NULL,
+    organization_id BIGINT,
     hostname VARCHAR(255) NOT NULL,
     worker_name VARCHAR(255) NOT NULL,
     status ENUM('ONLINE','OFFLINE','DRAINING') NOT NULL DEFAULT 'ONLINE',
